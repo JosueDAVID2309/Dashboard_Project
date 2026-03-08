@@ -33,27 +33,27 @@
             tarea: null,
             categorias: categorias
         }) %>
-
         <div class="tareas-section">
-            <% tareas.forEach(tarea => { %>
-                <%- include('partials/tareaInfo',{
-                    id: tarea.id,
-                    estado: tarea.estado,
-                    titulo: tarea.titulo,
-                    categoria: tarea.categoria,
-                    created_at: tarea.created_at,
-                    contenido: tarea.contenido,
-                    categorias: categorias,
-                    tarea:tarea
-                }) %>
-            <% }); %>
-            <% if (!tareas) {%>
-                <p>No tienes tareas registradas en tu sesión </p>
-            <% }%>
+            <% if (tareas.length === 0) { %>
+                <p class="vacio">
+                    No tienes tareas registradas en tu sesión....
+                </p>
+            <% } else { %>
+                <% tareas.forEach(tarea => { %>
+                    <%- include('partials/tareaInfo',{
+                        id: tarea.id,
+                        estado: tarea.estado,
+                        titulo: tarea.titulo,
+                        categoria: tarea.categoria,
+                        created_at: tarea.created_at,
+                        contenido: tarea.contenido,
+                        categorias: categorias,
+                        tarea:tarea
+                    }) %>
+                <% }); %>
+            <% } %>
         </div>
-
     </div>
-
 </div>
 </body>
 </html>
