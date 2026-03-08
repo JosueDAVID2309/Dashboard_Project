@@ -89,4 +89,15 @@ VALUES
  'Adquirir cuadernos y libros de programación', 
  5, 2, 3);
 
+CREATE OR REPLACE VIEW tareasInfo AS
+SELECT t.id, t.titulo, t.estado, c.nombre AS categoria, t.created_at, usuario.id
+FROM tareas t
+JOIN categorias c
+ON t.id_categoria = c.id
+JOIN usuarios u
+ON t.id_usuario = u.id
+ORDER BY c.id
+
+SELECT * FROM tareasInfo WHERE id = 
+
 

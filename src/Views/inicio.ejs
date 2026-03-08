@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+
+<div class="layout">
+    <!-- Columna izquierda -->
+    <div class="left">
+        <%- include('partials/profileInfo', {
+            nombre: nombre,
+            apellido: apellido,
+            usuario: usuario,
+            f_nacimiento: f_nacimiento,
+            correo: correo,
+            genero: genero
+        }) %>
+    </div>
+    
+    <!-- Columna derecha -->
+    <div class="right">
+        
+        <%- include('partials/ModalForm',{
+            tituloPagina: "Añadir Nueva Tarea",
+            action: '/tarea/crear',
+            tarea: null,
+            categorias: categorias
+        }) %>
+
+        <div class="tareas-secction">
+            <% tareas.forEach(tarea => { %>
+                <%- include('partials/tareaInfo',{
+                    id: tarea.id,
+                    estado: tarea.estado,
+                    titulo: tarea.titulo,
+                    created_at: tarea.created_at,
+                    contenido: tarea.contenido,
+                    categorias: categorias,
+                    tarea:tarea
+                }) %>
+            <% }); %>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<style>
+body {
+    margin: 0;
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Layout principal */
+.layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 25px;
+    padding: 30px;
+}
+
+/* Columna izquierda */
+.left {
+    align-self: start;
+}
+
+/* Columna derecha */
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+</style>
