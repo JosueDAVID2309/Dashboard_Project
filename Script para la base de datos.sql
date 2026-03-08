@@ -21,7 +21,7 @@ CREATE TABLE tareas (
     titulo VARCHAR(100) NOT NULL,
     contenido TEXT NOT NULL,
     id_categoria INT NOT NULL,
-    estado TINYINT NOT NULL DEFAULT 2,
+    estado TINYINT NOT NULL DEFAULT 1,
     id_usuario INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP 
@@ -63,7 +63,7 @@ VALUES
 
 ('Hacer ejercicio', 
  'Ir al gimnasio por la tarde', 
- 4, 2, 1),
+ 4, 1, 1),
  
  ('Investigar sobre arquitectura MVC', 
  'Leer documentación sobre patrones de arquitectura', 
@@ -71,7 +71,7 @@ VALUES
 
 ('Completar módulo de autenticación', 
  'Implementar login y manejo de sesiones', 
- 3, 2, 2),
+ 3, 1, 2),
 
 ('Organizar escritorio de trabajo', 
  'Limpiar archivos y ordenar documentos', 
@@ -87,17 +87,17 @@ VALUES
 
 ('Comprar materiales de estudio', 
  'Adquirir cuadernos y libros de programación', 
- 5, 2, 3);
+ 5, 1, 3);
 
 CREATE OR REPLACE VIEW tareasInfo AS
-SELECT t.id, t.titulo, t.estado, c.nombre AS categoria, t.created_at, usuario.id
+SELECT t.id, t.titulo, t.estado, t.contenido, c.nombre AS categoria, t.created_at, t.id_usuario, t.updated_at
 FROM tareas t
 JOIN categorias c
 ON t.id_categoria = c.id
-JOIN usuarios u
-ON t.id_usuario = u.id
 ORDER BY c.id
 
-SELECT * FROM tareasInfo WHERE id = 
+SELECT * FROM tareasInfo
+
+
 
 

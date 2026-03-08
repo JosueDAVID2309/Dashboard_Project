@@ -1,16 +1,74 @@
 <div class="tarea <%= estado ? 'completada' : 'pendiente' %>" id="tarea-<%= id %>">
     <div class="tarea-header">
+        <h4><%= categoria %></h4>
         <h4><%= titulo %></h4>
         <span class="fecha"><%= created_at %></span>
     </div>
     <hr>
     <p class="contenido"> <%= contenido %> </p>
     <hr>
-    <%- include('ModalForm',{
-    tituloPagina: "Editar Tarea",
-    action: '/tarea/editar/'+id,
-    tarea: tarea,
-    categorias: categorias
-    }) %>
-    
+    <div class="modal-dinamico" >
+        <%- include('ModalForm',{
+        tituloPagina: "Editar Tarea",
+        action: '/tarea/editar/'+id,
+        tarea: tarea,
+        categorias: categorias
+        }) %>
+    </div>
 </div>
+
+<style>
+.tarea{
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarea-header{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.tarea-header h4{
+    margin:0;
+    font-size:16px;
+}
+
+.fecha{
+    font-size:13px;
+    color:#666;
+}
+
+.contenido{
+    margin:10px 0;
+    line-height:1.5;
+    color:#333;
+}
+
+
+.tarea.pendiente{
+    border-left:5px solid red;
+}
+
+.tarea.completada{
+    border-left:5px solid #27ae60;
+    background:#f6fff8;
+}
+
+.tarea.completada .contenido{
+    text-decoration: line-through;
+    color:#777;
+}
+
+.tarea hr{
+    border:none;
+    border-top:1px solid #eee;
+    margin:10px 0;
+}
+</style>
+

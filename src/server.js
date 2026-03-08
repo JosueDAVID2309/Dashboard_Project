@@ -5,11 +5,11 @@ const session = require('express-session')
 const path = require('path')
 const morgan = require('morgan')
 const express = require('express')
-const rep = require('./Repositories/UserRepository')
 const app = express()
 
 //Rutas
 const authRoutes = require('./Routes/authRoutes')
+const taskRoutes = require('./Routes/taskRoutes')
 
 //Express settings
 app.set('view engine', 'ejs');
@@ -29,6 +29,7 @@ app.use(session({
 //Impotas rutas
 // app.use(Routes)
 app.use(authRoutes)
+app.use(taskRoutes)
 
 app.listen(3000, () => {
     console.log('servidor en el puerto 3000')

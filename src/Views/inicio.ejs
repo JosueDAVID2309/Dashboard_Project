@@ -8,7 +8,11 @@
 <body>
 
 <div class="layout">
-    <!-- Columna izquierda -->
+
+    <!-- Sidebar -->
+    <%- include('partials/sidebar') %>
+
+    <!-- Perfil -->
     <div class="left">
         <%- include('partials/profileInfo', {
             nombre: nombre,
@@ -19,10 +23,10 @@
             genero: genero
         }) %>
     </div>
-    
-    <!-- Columna derecha -->
+
+    <!-- Tareas -->
     <div class="right">
-        
+
         <%- include('partials/ModalForm',{
             tituloPagina: "Añadir Nueva Tarea",
             action: '/tarea/crear',
@@ -30,20 +34,26 @@
             categorias: categorias
         }) %>
 
-        <div class="tareas-secction">
+        <div class="tareas-section">
             <% tareas.forEach(tarea => { %>
                 <%- include('partials/tareaInfo',{
                     id: tarea.id,
                     estado: tarea.estado,
                     titulo: tarea.titulo,
+                    categoria: tarea.categoria,
                     created_at: tarea.created_at,
                     contenido: tarea.contenido,
                     categorias: categorias,
                     tarea:tarea
                 }) %>
             <% }); %>
+            <% if (!tareas) {%>
+                <p>No tienes tareas registradas en tu sesión </p>
+            <% }%>
         </div>
+
     </div>
+
 </div>
 </body>
 </html>
@@ -58,21 +68,69 @@ body {
 /* Layout principal */
 .layout {
     display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 25px;
-    padding: 30px;
+    grid-template-columns: 220px 300px 1fr;
+    min-height: 100vh;
 }
 
-/* Columna izquierda */
-.left {
-    align-self: start;
+.sidebar{
+    background:#1e293b;
+    color:white;
+    padding:20px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
-/* Columna derecha */
-.right {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.sidebar ul{
+    list-style:none;
+    padding:0;
 }
 
+.sidebar li{
+    margin:15px 0;
+}
+
+.sidebar a{
+    color:white;
+    text-decoration:none;
+}
+
+.sidebar a:hover{
+    color:#38bdf8;
+}
+
+/* Logout */
+.sidebar-bottom{
+    margin-top:auto;
+}
+
+.logout{
+    display:block;
+    padding:10px;
+    border-top:1px solid rgba(255,255,255,0.2);
+}
+
+/* Columna perfil */
+.left{
+    padding:25px;
+    background:white;
+}
+
+/* Columna tareas */
+.right{
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* Lista de tareas */
+.tareas-section{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
 </style>
+
+

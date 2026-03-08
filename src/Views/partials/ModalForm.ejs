@@ -11,7 +11,6 @@
 
 <div id="<%= tarea ? 'modalTarea-'+tarea.id : 'modalTarea'%>" class="modal">
     <div class="modal-contenido">
-
         <span class="cerrar">&times;</span>
 
         <h1><%= tituloPagina %></h1>
@@ -22,7 +21,7 @@
             <select name="categoria" required>
                 <% categorias.forEach(categoria => { %>
                     <option value="<%= categoria.id %>"
-                        <% if(tarea && tarea.id_categoria === categoria.id){ %>
+                        <% if(tarea && tarea.categoria === categoria.nombre){ %>
                             selected
                         <% } %> 
                         >
@@ -41,7 +40,6 @@
 
 <div id="modalEliminar-<%= tarea.id %>" class="modal">
     <div class="modal-contenido">
-
         <span class="cerrar">&times;</span>
 
         <h2>¿Seguro que quieres borrar esta tarea?</h2>
@@ -49,16 +47,11 @@
         <p><%= tarea.contenido %></p>
 
         <form action="/tarea/delete/<%= tarea.id %>" method="POST">
-
             <button type="button" class="cancelar">Cancelar</button>
-
             <button type="submit">Eliminar</button>
-
         </form>
-
     </div>
 </div>
-
 <% } %>
 
 <script>
