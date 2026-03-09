@@ -96,17 +96,3 @@ JOIN categorias c
 ON t.id_categoria = c.id
 ORDER BY c.id;
 
-SELECT id, titulo, created_at FROM tareas WHERE id_usuario = 1 ORDER BY created_at DESC LIMIT 1;
-SELECT id, titulo, updated_at FROM tareas WHERE id_usuario = 1 ORDER BY updated_at DESC LIMIT 1;
-
-SELECT c.nombre AS categoria, count(*) AS totalTareas FROM tareas t JOIN categorias c ON t.id_categoria = c.id WHERE t.id_usuario = ? GROUP BY c.nombre
-
-SELECT 
-    c.nombre AS categoria,
-    SUM(t.estado = 1) AS completadas,
-    SUM(t.estado = 0) AS pendientes
-FROM tareas t
-JOIN categorias c ON t.id_categoria = c.id
-WHERE t.id_usuario = ?
-GROUP BY c.id, c.nombre;
-
