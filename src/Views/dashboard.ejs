@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="layout">
+    <%- include('partials/sidebar') %>
+
+    <div class="dashboard-content">
+        <div class="metric-container">
+            <%- include('partials/metric-card',{
+                title: 'Total de tareas',
+                value: total_tareas,
+                date: null
+            }) %>
+            <%- include('partials/metric-card',{
+                title: 'Tareas Completadas',
+                value: tareas_completadas,
+                date: null
+            }) %>
+            <%- include('partials/metric-card',{
+                title: 'Tareas pendientes',
+                value: tareas_pendientes,
+                date: null
+            }) %>
+            <%- include('partials/metric-card',{
+                title: 'Ultima tarea creada',
+                value: ultimaTareaTitle,
+                date: ultimaTareaFecha
+            }) %>
+            <%- include('partials/metric-card',{
+                title: 'Ultima tarea actualizada',
+                value: ultimaActualizadaTitle,
+                date: ultimaActualizadaFecha
+            }) %>
+        </div>
+        <div class="grafics-container">
+            <div class="chart-box">
+                <h3 class="chart-title">Tareas por categoría</h3>
+                <canvas id="myCake"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3 class="chart-title">Estado de Tareas</h3>
+                <canvas id="estadoChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const categorias = <%- JSON.stringify(categorias) %>;
+    const totalTareas = <%- JSON.stringify(totales) %>;
+    
+    const myCake = document.getElementById('myCake')
+
+    const myChart = new Chart(myCake,{
+        type: 'pie',
+        data: {
+            labels: categorias,
+            datasets: [{
+                label: 'Tareas',
+                data: totalTareas,
+                backgroundColor: [
+                    '#3b82f6',
+                    '#22c55e',
+                    '#f59e0b',
+                    '#ef4444',
+                    '#8b5cf6'
+                ],
+                borderWidth: 1.5
+            }]      
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false
+        }
+    })
+
+    const labels = <%- JSON.stringify(labels) %>;
+    const completadas = <%- JSON.stringify(completadas) %>;
+    const pendientes = <%- JSON.stringify(pendientes) %>;
+
+    const myBar = document.getElementById('estadoChart')
+
+    const myChard = new Chart(myBar, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Completadas',
+                    data: completadas,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                },
+                {
+                    label: 'Pendientes',
+                    data: pendientes,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>
+
+<style>
+body {
+    margin: 0;
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Layout principal */
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar{
+    background:#1e293b;
+    color:white;
+    padding:20px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:0;
+}
+
+.sidebar li{
+    margin:15px 0;
+}
+
+.sidebar a{
+    color:white;
+    text-decoration:none;
+}
+
+.sidebar a:hover{
+    color:#38bdf8;
+}
+
+/* Logout */
+.sidebar-bottom{
+    margin-top:auto;
+}
+
+.logout{
+    display:block;
+    padding:10px;
+    border-top:1px solid rgba(255,255,255,0.2);
+}
+
+.dashboard-content{
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.grafics-container{
+    background:white;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px,1fr));
+    gap: 20px;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    min-height:350px;
+}
+
+.chart-box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    height:350px;
+    display:flex;
+    flex-direction:column;
+}
+
+.chart-title{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.chart-box canvas{
+    flex:1;
+    width:100% !important;
+    height:100% !important;
+}
+
+</style>

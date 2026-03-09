@@ -19,3 +19,33 @@ exports.eliminar = async(req, res) => {
     await repTarea.deleteTask(idTask)
     res.redirect('/inicio')
 }
+
+exports.dashboard = async (req, res) => {
+    const metrics = await repTarea.getMetrics(req.session.UserId);
+    const ultimaTarea = await repTarea.ultimaTarea(req.session.UserId)
+    const ultimaActulizada = await repTarea.ultimaActualizada(req.session.UserId)
+    
+    const dataCake = await repTarea.getCakeData(req.session.UserId)
+    const categorias = dataCake.map(c => c.categoria);
+    const totales = dataCake.map(c => c.totalTareas);
+
+    const dataBar = await repTarea.getBarData(req.session.UserId)
+    const labels = dataBar.map(row => row.categoria);
+    const completadas = dataBar.map(row => row.completadas);
+    const pendientes = dataBar.map(row => row.pendientes);
+
+    res.render('dashboard',{
+        total_tareas: metrics.total_tareas,
+        tareas_completadas: metrics.tareas_completadas,
+        tareas_pendientes: metrics.tareas_pendientes,
+        ultimaTareaTitle: ultimaTarea.titulo,
+        ultimaTareaFecha: Task.getFechaHora(ultimaTarea.created_at),
+        ultimaActualizadaTitle: ultimaActulizada.titulo,
+        ultimaActualizadaFecha: Task.getFechaHora(ultimaActulizada.updated_at),
+        categorias: categorias,
+        totales: totales,
+        labels: labels,
+        completadas: completadas,
+        pendientes: pendientes
+    })
+}

@@ -8,4 +8,8 @@ router.post('/tarea/crear',authUser.verificarSesion, TaskController.crear)
 router.post('/tarea/editar/:id', authUser.verificarSesion, TaskController.editar)
 
 router.post('/tarea/delete/:id', authUser.verificarSesion, TaskController.eliminar)
+
+router.get('/tarea/dashboard', authUser.verificarSesion, TaskController.dashboard )
+
+
 module.exports = router;

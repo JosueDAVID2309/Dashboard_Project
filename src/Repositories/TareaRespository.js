@@ -52,3 +52,46 @@ exports.deleteTask = async (id) => {
 
     return result.affectedRows > 0;
 };
+
+exports.getMetrics = async (id) => {
+    const [rows] = await db.query(
+        'SELECT COUNT(*) AS total_tareas, SUM(estado = 1) AS tareas_completadas, SUM(estado = 0) AS tareas_pendientes FROM tareas WHERE id_usuario = ?', [id]
+    )
+    return rows[0];
+}
+
+
+exports.ultimaTarea = async (id) =>{
+    const [rows] = await db.query(
+        'SELECT id, titulo, created_at FROM tareas WHERE id_usuario = ? ORDER BY created_at DESC LIMIT 1', [id]
+    )
+    return rows[0];
+}
+
+exports.ultimaActualizada = async (id) =>{
+    const [rows] = await db.query(
+        'SELECT id, titulo, updated_at FROM tareas WHERE id_usuario = ? ORDER BY updated_at DESC LIMIT 1', [id]
+    )
+    return rows[0];
+}
+
+exports.getCakeData = async (userId) => {
+    const [rows] = await db.query(`SELECT c.nombre AS categoria, COUNT(*) AS totalTareas FROM tareas t JOIN categorias c ON t.id_categoria = c.id WHERE t.id_usuario = ? GROUP BY c.id, c.nombre`,
+        [userId]
+    )   
+    return rows;
+};
+
+exports.getBarData = async (userId) => {
+    const [rows] = await db.query(`SELECT 
+    c.nombre AS categoria,
+    SUM(t.estado = 1) AS completadas,
+    SUM(t.estado = 0) AS pendientes
+    FROM tareas t
+    JOIN categorias c ON t.id_categoria = c.id
+    WHERE t.id_usuario = ?
+    GROUP BY c.id, c.nombre;`,
+        [userId]
+    )   
+    return rows;
+};
